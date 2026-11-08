@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(openCV_cam CXX)
+project(opencv_opi4_tracker CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,7 +9,8 @@ if(NOT OpenCV_DIR AND EXISTS "/usr/lib/cmake/opencv5/OpenCVConfig.cmake")
   set(OpenCV_DIR "/usr/lib/cmake/opencv5")
 endif()
 
-find_package(OpenCV REQUIRED COMPONENTS core imgproc videoio highgui imgcodecs)
+# No highgui: headless board, output is an MJPEG HTTP stream.
+find_package(OpenCV REQUIRED COMPONENTS core imgproc videoio imgcodecs dnn)
 
 add_executable(main main.cpp)
 target_include_directories(main PRIVATE ${OpenCV_INCLUDE_DIRS})

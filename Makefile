@@ -12,7 +12,9 @@ LDFLAGS += -L$(MOTRACK_PREFIX)/lib -Wl,-rpath,$(MOTRACK_PREFIX)/lib
 # NOTE: `pkg-config --libs opencv5` pulls in every module, including
 # opencv_viz, which fails to link because VTK isn't installed. Listing
 # modules explicitly avoids that.
-CV_LIBS = -lopencv_core -lopencv_imgproc -lopencv_videoio -lopencv_highgui -lopencv_imgcodecs -lopencv_dnn -lmotrack
+# No highgui: the board is headless — the picture is streamed to a PC
+# as MJPEG over HTTP (see main.cpp), open it in a browser.
+CV_LIBS = -lopencv_core -lopencv_imgproc -lopencv_videoio -lopencv_imgcodecs -lopencv_dnn -lmotrack
 
 TARGET = main
 SRCS   = $(wildcard *.cpp)
@@ -26,10 +28,11 @@ $(TARGET): $(OBJS)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
 
-# make run                                   -> local camera 0
-# make run URL=http://192.168.1.82:8080/video -> network camera (IP Webcam)
+# make run                                        -> default RTSP url
+# make run URL=rtsp://192.168.1.82:8080/h264_opus.sdp
+# make run URL=... PORT=9000 MODEL=yolo11n.onnx
 run: $(TARGET)
-	./$(TARGET) $(URL)
+	./$(TARGET) "$(URL)" $(PORT) $(MODEL)
 
 clean:
 	rm -f $(OBJS) $(TARGET)

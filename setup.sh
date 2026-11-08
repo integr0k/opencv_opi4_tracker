@@ -33,9 +33,11 @@ fi
 # git              clones motrack
 # ca-certificates  https for git clone
 # ffmpeg           OpenCV CAP_FFMPEG backend: decodes the RTSP stream
-# libopencv-dev    OpenCV itself (core/imgproc/videoio/highgui/imgcodecs/dnn);
-#                  on Debian/Ubuntu it is built WITH FFmpeg and GTK support,
-#                  so RTSP input and cv::imshow work out of the box
+# libopencv-dev    OpenCV (core/imgproc/videoio/imgcodecs/dnn), built with
+#                  FFmpeg support so RTSP input works out of the box.
+#                  GUI (highgui) is NOT used: the board is headless —
+#                  the annotated picture is streamed to a PC as MJPEG over
+#                  HTTP, just open http://<board-ip>:8000 in any browser.
 echo "==> apt update"
 $SUDO apt update
 
