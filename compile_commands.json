@@ -1,0 +1,7 @@
+[
+  {
+    "directory": "/home/integr0k/Projects/openCV_cam",
+    "command": "/usr/bin/g++ -std=c++17 -O2 -Wall -Wextra -I/usr/include/opencv5 -c main.cpp -o main.o",
+    "file": "/home/integr0k/Projects/openCV_cam/main.cpp"
+  }
+]
